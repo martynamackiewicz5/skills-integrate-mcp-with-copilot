@@ -5,7 +5,8 @@ A super simple FastAPI application that allows students to view and sign up for 
 ## Features
 
 - View all available extracurricular activities
-- Sign up for activities
+- Role-based authentication (Admin/Faculty/Student)
+- Protected sign-up and unregister operations for staff users
 
 ## Getting Started
 
@@ -30,7 +31,21 @@ A super simple FastAPI application that allows students to view and sign up for 
 | Method | Endpoint                                                          | Description                                                         |
 | ------ | ----------------------------------------------------------------- | ------------------------------------------------------------------- |
 | GET    | `/activities`                                                     | Get all activities with their details and current participant count |
-| POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up for an activity                                             |
+| POST   | `/auth/login`                                                     | Login with username/password and receive a bearer token             |
+| POST   | `/auth/logout`                                                    | Invalidate current session token                                    |
+| GET    | `/auth/me`                                                        | Get current authenticated user                                      |
+| POST   | `/activities/{activity_name}/signup?email=student@mergington.edu` | Sign up a student (admin/faculty only)                              |
+| DELETE | `/activities/{activity_name}/unregister?email=student@mergington.edu` | Unregister a student (admin/faculty only)                           |
+
+## Default Credentials
+
+The application reads users from `users.json`:
+
+- Admin: `principal` / `admin123`
+- Faculty: `teacher01` / `teach123`
+- Student: `student01` / `student123`
+
+Student users can authenticate but cannot modify registrations.
 
 ## Data Model
 
